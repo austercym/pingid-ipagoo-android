@@ -30,13 +30,6 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        TextView accountBalanceTextView = (TextView)findViewById(R.id.accountBalanceTextView);
-        if (accountBalanceTextView!=null){
-            if (getIntent()!=null && getIntent().getExtras()!=null && getIntent().getExtras().getString(KEY_SUM)!=null){
-                accountBalanceTextView.setText(getIntent().getExtras().getString(KEY_SUM));
-            }
-        }
-
         popupMenuContainer = (FrameLayout)findViewById(R.id.popupMenuContainer);
 
         ImageButton mMenuButton = (ImageButton) findViewById(R.id.buttonMenu);

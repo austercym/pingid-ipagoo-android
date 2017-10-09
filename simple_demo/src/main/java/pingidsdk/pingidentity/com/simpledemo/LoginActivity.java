@@ -41,12 +41,12 @@ import static pingidsdk.pingidentity.com.simpledemo.PingIDSdkDemoApplication.sho
 // Created by Ping Identity on 3/23/17.
 // Copyright © 2017 Ping Identity. All rights reserved.
 //
-public class LoginActivity extends BaseActivity  {
+public class LoginActivity extends BaseActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     public final String TAG = LoginActivity.class.getName();
-    private String sum="";
+    private String sum = "";
     // UI references.
     private EditText mUsernameView;
     private EditText mPasswordView;
@@ -56,10 +56,11 @@ public class LoginActivity extends BaseActivity  {
     private TextView mUnpairView;
 
     //auth types for requests to the hosting server
-    public enum OperationType{
+    public enum OperationType {
         AUTH_USER("auth_user");
         private String name;
-        OperationType(String name){
+
+        OperationType(String name) {
             this.name = name;
         }
     }
@@ -75,7 +76,7 @@ public class LoginActivity extends BaseActivity  {
         super.onResume();
         //if this activity was launched from a click on a notification
         //display the addDeviceDialog
-        if (getIntent()!=null && getIntent().getExtras()!=null && getIntent().getExtras().containsKey(TRUST_LEVELS) && getIntent().getExtras().getStringArrayList(TRUST_LEVELS)!=null){
+        if (getIntent() != null && getIntent().getExtras() != null && getIntent().getExtras().containsKey(TRUST_LEVELS) && getIntent().getExtras().getStringArrayList(TRUST_LEVELS) != null) {
             List<String> trustLevels = getIntent().getExtras().getStringArrayList(TRUST_LEVELS);
             displayAddDeviceToNetworkDialog(trustLevels);
         }
@@ -122,15 +123,15 @@ public class LoginActivity extends BaseActivity  {
             addLogLine("PingID Consumer lib error : " + e.getMessage());
         }
 
-        popupMenuContainer = (FrameLayout)findViewById(R.id.popupMenuContainer);
+        popupMenuContainer = (FrameLayout) findViewById(R.id.popupMenuContainer);
 
         ImageButton mMenuButton = (ImageButton) findViewById(R.id.buttonMenu);
         mMenuButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (popupMenuContainer.getVisibility()==View.INVISIBLE){
+                if (popupMenuContainer.getVisibility() == View.INVISIBLE) {
                     popupMenuContainer.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     popupMenuContainer.setVisibility(View.INVISIBLE);
                 }
             }
@@ -145,7 +146,7 @@ public class LoginActivity extends BaseActivity  {
         });
 
         //prepare listeners for the menu items
-        mUnpairView = (TextView)findViewById(R.id.buttonUnpair);
+        mUnpairView = (TextView) findViewById(R.id.buttonUnpair);
         mUnpairView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,12 +155,9 @@ public class LoginActivity extends BaseActivity  {
             }
         });
 
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         //set version number in the bottom of the login screen
-        TextView mVersionView = (TextView)findViewById(R.id.version);
-        mVersionView.setText("v" + BuildConfig.VERSION_NAME);
-
         checkPlayServices();
 
         addLogLine("App initialized");
@@ -171,9 +169,9 @@ public class LoginActivity extends BaseActivity  {
     @Override
     public void onBackPressed() {
         //close the menu if it's open
-        if (popupMenuContainer.getVisibility()==View.VISIBLE){
+        if (popupMenuContainer.getVisibility() == View.VISIBLE) {
             popupMenuContainer.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -272,7 +270,7 @@ public class LoginActivity extends BaseActivity  {
                             }
                         } else if (response.getStatus() == 1015) {
                             showStatus("Login request, status : " + response.getStatus() + " - " + response.getDescription());
-                            PingID.getInstance().setServerPayload(response.getServerPayload(), null, response.getCurrentAuthenticatingDeviceData()!=null ? response.getCurrentAuthenticatingDeviceData().getName() : null);
+                            PingID.getInstance().setServerPayload(response.getServerPayload(), null, response.getCurrentAuthenticatingDeviceData() != null ? response.getCurrentAuthenticatingDeviceData().getName() : null);
                         } else if (response.getStatus() == 1006) {
                             showStatus("Login request, status : " + response.getStatus() + " - " + response.getDescription());
                             displayAlertDialog(getString(R.string.error_authentication_failed), response.getDescription(), getString(R.string.ok), null);
@@ -280,7 +278,7 @@ public class LoginActivity extends BaseActivity  {
                             showStatus("Login request, status : " + response.getStatus() + " - " + response.getDescription());
 
 
-                            LoginActivity.this.sum=response.getSum();
+                            LoginActivity.this.sum = response.getSum();
 
                             if (response.getServerPayload() != null) {
                                 PingID.getInstance().setServerPayload(response.getServerPayload(), userAnswer, response.getCurrentAuthenticatingDeviceData() != null ? response.getCurrentAuthenticatingDeviceData().getName() : null);
@@ -297,7 +295,7 @@ public class LoginActivity extends BaseActivity  {
                     } catch (Exception e) {
                         changeScreenAvailability(true, progressBar);
                         showStatus("Error processing auth response -  " + e.getMessage() + ", response=" + responseBodyString);
-                        displayAlertDialog(getString(R.string.error), getString(R.string.error_connection_failed),getString(R.string.close), null);
+                        displayAlertDialog(getString(R.string.error), getString(R.string.error_connection_failed), getString(R.string.close), null);
                         e.printStackTrace();
                     }
                 }
@@ -307,7 +305,7 @@ public class LoginActivity extends BaseActivity  {
                     Log.d(TAG, "attemptLogin onFailure, statusCode=" + statusCode);
                     error.printStackTrace();
                     changeScreenAvailability(true, progressBar);
-                    displayAlertDialog(getString(R.string.error), getString(R.string.error_connection_failed),getString(R.string.close), null);
+                    displayAlertDialog(getString(R.string.error), getString(R.string.error_connection_failed), getString(R.string.close), null);
                     showStatus(error.getMessage());
                 }
             });
@@ -318,7 +316,6 @@ public class LoginActivity extends BaseActivity  {
             changeScreenAvailability(true, progressBar);
         }
     }
-
 
 
     @Override
@@ -343,12 +340,12 @@ public class LoginActivity extends BaseActivity  {
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (apiAvailability.isUserResolvableError(resultCode)) {
-                try{
+                try {
                     apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST).show();
-                }catch(WindowManager.BadTokenException badTokenException){
+                } catch (WindowManager.BadTokenException badTokenException) {
                     //in case the problem is that the app is in the background and cannot display the dialog
-                    Log.e(TAG,"The application is in the background and therefore cannot display the dialog");
-                }catch(Throwable throwable){
+                    Log.e(TAG, "The application is in the background and therefore cannot display the dialog");
+                } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
             } else {
@@ -363,14 +360,14 @@ public class LoginActivity extends BaseActivity  {
     //launch the home activity
     protected void launchHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
-        if (sum!=null) {
+        if (sum != null) {
             intent.putExtra(HomeActivity.KEY_SUM, sum);
         }
         startActivity(intent);
         finish();
     }
 
-    public ProgressBar getProgressBar(){
+    public ProgressBar getProgressBar() {
         return progressBar;
     }
 

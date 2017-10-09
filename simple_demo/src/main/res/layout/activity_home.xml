@@ -4,54 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     tools:context="pingidsdk.pingidentity.com.simpledemo.HomeActivity"
-    android:background="@color/white"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         >
 
 
         <ImageView
             android:id="@+id/logo"
+            android:layout_width="170dp"
             android:layout_height="50dp"
-            android:src="@drawable/logo_moderno_mobile"
-            android:layout_marginBottom="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/logo_moderno_mobile"
-            android:layout_width="170dp"
+            android:layout_marginBottom="0dp"
             android:layout_marginTop="6dp"
+            android:contentDescription="@string/logo_moderno_mobile"
+            android:src="@drawable/ic_ipagoo"
             />
 
         <TextView
             android:id="@+id/accountBalanceCaptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="28sp"
-            android:text="@string/account_balance"
             android:layout_below="@+id/logo"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
-            />
-
-        <TextView
-            android:id="@+id/accountBalanceTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="36sp"
-            android:layout_below="@+id/accountBalanceCaptionTextView"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            />
+            android:text="Notifications will appear here"
+            android:textSize="20sp"/>
 
     </RelativeLayout>
 
@@ -59,72 +47,72 @@
         android:id="@+id/buttonMenu"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:scaleType="fitXY"
-        android:background="#00FFFFFF"
-        android:layout_gravity="end"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:gravity="end"
-        android:src="@drawable/icon_burger_menu"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="end"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="@string/button_menu">
+        android:background="#00FFFFFF"
+        android:contentDescription="@string/button_menu"
+        android:gravity="end"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_burger_menu">
     </ImageButton>
 
     <FrameLayout
+        android:id="@+id/popupMenuContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/popupMenuContainer"
         android:visibility="invisible">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/menu_bg"
             android:alpha="0.3"
+            android:background="@color/menu_bg"
             />
 
         <LinearLayout
             android:id="@+id/popupMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="end|top"
-            android:layout_marginTop="48dp"
             android:layout_marginRight="36dp"
+            android:layout_marginTop="48dp"
+            android:alpha="1"
             android:background="@color/white"
-            android:visibility="visible"
+            android:orientation="vertical"
             android:paddingBottom="14dp"
             android:paddingTop="14dp"
-            android:alpha="1"
+            android:visibility="visible"
             >
 
             <TextView
+                android:id="@+id/buttonUnpair"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/buttonUnpair"
-                android:text="@string/unpair"
-                android:gravity="center_horizontal"
-                android:textSize="20sp"
-                android:padding="6dp"
-                android:textColor="@color/red"
                 android:alpha="1"
+                android:gravity="center_horizontal"
+                android:padding="6dp"
+                android:text="@string/unpair"
+                android:textColor="@color/red"
+                android:textSize="20sp"
                 />
 
             <TextView
+                android:id="@+id/buttonLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/buttonLogout"
-                android:text="@string/logout"
                 android:gravity="center_horizontal"
-                android:textSize="20sp"
                 android:padding="6dp"
+                android:text="@string/logout"
                 android:textColor="@color/button_green_bg"
-            />
+                android:textSize="20sp"
+                />
 
         </LinearLayout>
     </FrameLayout>

@@ -19,23 +19,23 @@ public class AppPreferences {
     /**
      * The constant DEFAULT_HOSTING_SERVER_BASE_URL.
      */
-    public static String DEFAULT_HOSTING_SERVER_BASE_URL = "<Hosting server URL>";
+    public static String DEFAULT_HOSTING_SERVER_BASE_URL = "http://demoshop.orwellg.com:8080/hosting-server/";
     /**
      * The constant DEFAULT_APP_ID.
      */
-    public static String DEFAULT_APP_ID = "<App_Id>";
+    public static String DEFAULT_APP_ID = "dc06b031-7109-44d3-9ae8-f02c31441407";
     /**
      * The constant DEFAULT_PUSH_SENDER_ID.
      */
-    public static String DEFAULT_PUSH_SENDER_ID = "<Fcm/Gcm Sender Id>";
+    public static String DEFAULT_PUSH_SENDER_ID = "768403677106";
     /**
      * The constant DEFAULT_FORCE_PUSHLESS.
      */
-    public static boolean DEFAULT_FORCE_PUSHLESS = false ;
+    public static boolean DEFAULT_FORCE_PUSHLESS = false;
 
     //in-app settings
-    private final static String USERNAME = "USERNAME";
-    private final static String PASSWORD = "PASSWORD";
+    private final static String USERNAME = "vad";
+    private final static String PASSWORD = "password";
 
     /*
      * Gets username.

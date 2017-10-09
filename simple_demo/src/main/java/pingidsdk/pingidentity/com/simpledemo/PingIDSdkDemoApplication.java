@@ -58,12 +58,12 @@ import static pingidsdkclient.PingID.PIDTrustLevel.PIDTrustLevelTrusted;
 //
 public class PingIDSdkDemoApplication extends Application implements Application.ActivityLifecycleCallbacks, PingID.PingIdSdkEvents {
 
-    public static final String TAG=PingIDSdkDemoApplication.class.getName();
+    public static final String TAG = PingIDSdkDemoApplication.class.getName();
     private Activity _activity;
-    public static final Map<String, String> globalData= new HashMap<>(); //global object for application wide data
+    public static final Map<String, String> globalData = new HashMap<>(); //global object for application wide data
     public static PingIDSdkDemoApplication _pingIDSdkDemoApplication;
     int mNotificationId = 1;
-    private int googlePlayServicesAvailabilityCheckResult=-1;
+    private int googlePlayServicesAvailabilityCheckResult = -1;
 
     @Override
     public void onCreate() {
@@ -82,7 +82,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
         }
     }
 
-    public static PingIDSdkDemoApplication getInstance(){
+    public static PingIDSdkDemoApplication getInstance() {
         return _pingIDSdkDemoApplication;
     }
 
@@ -100,17 +100,17 @@ public class PingIDSdkDemoApplication extends Application implements Application
         _activity = activity;
         //if we have a googlePlayServicesAvailabilityCheckResult value we didn't handle bacause there
         //was not activity loaded - handle it now.
-        if (googlePlayServicesAvailabilityCheckResult>-1){
+        if (googlePlayServicesAvailabilityCheckResult > -1) {
             handleGooglePlayServicesAvailabilityCheckResult(googlePlayServicesAvailabilityCheckResult);
-            googlePlayServicesAvailabilityCheckResult=-1 ;//reset the value
+            googlePlayServicesAvailabilityCheckResult = -1;//reset the value
         }
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
         Log.w(TAG, "Activity paused:" + activity.getLocalClassName());
-        if (_activity==activity){
-            _activity=null;
+        if (_activity == activity) {
+            _activity = null;
         }
     }
 
@@ -128,14 +128,14 @@ public class PingIDSdkDemoApplication extends Application implements Application
         //Log.w(TAG, "Activity destroyed:" + activity.getLocalClassName());
     }
 
-    public Activity getCurrentActivity(){
+    public Activity getCurrentActivity() {
         return _activity;
     }
 
     @Override
     public void onPairingOptionsRequired(final List<String> availableTrustLevels, DeviceDetails deviceDetails) {
         Log.i(TAG, "onPairingOptionsRequired triggered");
-        if (getCurrentActivity()!=null) {
+        if (getCurrentActivity() != null) {
             getCurrentActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     //this will display the "add device" dialog to the user
@@ -145,11 +145,10 @@ public class PingIDSdkDemoApplication extends Application implements Application
                     ((BaseActivity) getCurrentActivity()).displayAddDeviceToNetworkDialog(availableTrustLevels);
                 }
             });
-        }else{
+        } else {
             createPairingNotification(availableTrustLevels, deviceDetails);
         }
     }
-
 
 
     @Override
@@ -159,9 +158,9 @@ public class PingIDSdkDemoApplication extends Application implements Application
 
     @Override
     public void onPairingCompleted(final PingID.PIDActionStatus status, final PingID.PIDErrorDomain pidErrorDomain) {
-        Log.i(TAG, "onPairingCompleted triggered with status " + status.name() + (pidErrorDomain!=null ? ", error=" + pidErrorDomain.getResultCode() + " " + pidErrorDomain.getResultDescription() : ""));
+        Log.i(TAG, "onPairingCompleted triggered with status " + status.name() + (pidErrorDomain != null ? ", error=" + pidErrorDomain.getResultCode() + " " + pidErrorDomain.getResultDescription() : ""));
         final String msg = "Pairing completed with status " + status + (pidErrorDomain != null ? ", error=" + pidErrorDomain.getResultCode() + " " + pidErrorDomain.getResultDescription() : "");
-        if (getCurrentActivity()!=null) {
+        if (getCurrentActivity() != null) {
             getCurrentActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     //display the results of the pairing operation
@@ -181,7 +180,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
                     }
                 }
             });
-        }else{
+        } else {
             Log.i(TAG, msg);
             removeNotification();
         }
@@ -195,12 +194,12 @@ public class PingIDSdkDemoApplication extends Application implements Application
     @Override
     public void onAuthenticationCompleted(final PingID.PIDActionStatus status, final PingID.PIDActionType actionType, final PingID.PIDErrorDomain pidErrorDomain) {
         String msg = "Authentication completed with " + (actionType != null ? "actionType " + actionType.name() : null) + ", status=" + " " + status.name() + (pidErrorDomain != null ? ", error=" + pidErrorDomain.getResultCode() + " " + pidErrorDomain.getResultDescription() : "");
-        if (PingIDSdkDemoApplication.globalData.containsKey(KEY_CLIENT_CONTEXT) &&  PingIDSdkDemoApplication.globalData.get(KEY_CLIENT_CONTEXT).toLowerCase().contains("transfer")) {
+        if (PingIDSdkDemoApplication.globalData.containsKey(KEY_CLIENT_CONTEXT) && PingIDSdkDemoApplication.globalData.get(KEY_CLIENT_CONTEXT).toLowerCase().contains("transfer")) {
             msg = "Transaction completed with " + (actionType != null ? "actionType " + actionType.name() : null) + ", status=" + " " + status.name() + (pidErrorDomain != null ? ", error=" + pidErrorDomain.getResultCode() + " " + pidErrorDomain.getResultDescription() : "");
         }
         final String authenticationStatus = msg;
         Log.i(TAG, authenticationStatus);
-        if (getCurrentActivity()!=null) {
+        if (getCurrentActivity() != null) {
             getCurrentActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     showStatus(authenticationStatus);
@@ -212,7 +211,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
                     }
                 }
             });
-        }else{
+        } else {
             Log.e(TAG, msg);
         }
         removeNotification();
@@ -232,19 +231,18 @@ public class PingIDSdkDemoApplication extends Application implements Application
     public void onAuthenticationRequired(final Bundle data) {
         Log.i(TAG, "onAuthenticationRequired triggered. Bundle size=" + data.keySet().size());
 
-        if (getCurrentActivity()!=null) { //if there is an active activity
+        if (getCurrentActivity() != null) { //if there is an active activity
             getCurrentActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     //incoming authentication - launch the authentication activity
                     ((BaseActivity) getCurrentActivity()).launchAuthenticationActivity(data);
                 }
             });
-        }else{
+        } else {
             createAuthenticationNotification(data);
         }
 
     }
-
 
 
     @Override
@@ -285,10 +283,10 @@ public class PingIDSdkDemoApplication extends Application implements Application
 
         //if we have an activity loaded when we get the result of the Google Play Services availability check
         //we can display the dialog . if not - we'll have to wait until an activity is loaded
-        if (getCurrentActivity()!=null){
+        if (getCurrentActivity() != null) {
             handleGooglePlayServicesAvailabilityCheckResult(status);
-        }else{
-            googlePlayServicesAvailabilityCheckResult=status;
+        } else {
+            googlePlayServicesAvailabilityCheckResult = status;
         }
 
 
@@ -317,7 +315,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
             //regular authentication
             notificationText = getString(R.string.new_auth_notification_body);
             notificationTitle = getString(R.string.new_auth_notification_title);
-        }else{
+        } else {
             //step up
             notificationText = getString(R.string.step_up_accounts) + "\n" + authenticationData.getMsg();
             notificationTitle = getString(R.string.step_up_transfer_between_accounts);
@@ -344,9 +342,9 @@ public class PingIDSdkDemoApplication extends Application implements Application
         //prepare notification builder
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.app_icon_moderno_1024)
+                        .setSmallIcon(R.drawable.ic_system_logo)
                         .setContentTitle(getString(R.string.app_name))
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_moderno_1024))
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                         .setContentIntent(resultPendingIntent)
                         .setContentText(notificationText)
                         .setDefaults(Notification.DEFAULT_ALL)
@@ -375,7 +373,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
         mNotifyMgr.cancel(mNotificationId);
     }
 
-    private void wakeupDevice(){
+    private void wakeupDevice() {
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
         wakeLock.acquire();
@@ -414,9 +412,9 @@ public class PingIDSdkDemoApplication extends Application implements Application
             //prepare notification builder
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.app_icon_moderno_1024)
+                            .setSmallIcon(R.drawable.ic_system_logo)
                             .setContentTitle(getString(R.string.app_name))
-                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_moderno_1024))
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                             .setContentIntent(resultPendingIntent)
                             .setContentText(notificationText)
                             .setDefaults(Notification.DEFAULT_ALL)
@@ -433,7 +431,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
             wakeupDevice();
-        }catch(Throwable throwable){
+        } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
     }
@@ -444,7 +442,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
     }
 
     protected static void showStatus(final String info) {
-        if (getInstance().getCurrentActivity()!=null) {
+        if (getInstance().getCurrentActivity() != null) {
             getInstance().getCurrentActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -455,7 +453,7 @@ public class PingIDSdkDemoApplication extends Application implements Application
         Log.i(TAG, info);
     }
 
-    protected void handleGooglePlayServicesAvailabilityCheckResult(int status){
+    protected void handleGooglePlayServicesAvailabilityCheckResult(int status) {
         if (status == ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED) {
             //Google Play services needs to be updated - display a dialog tha requests the user to upgrade
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getCurrentActivity(), ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED, PLAY_SERVICES_UPDATE_REQUEST, new DialogInterface.OnCancelListener() {
