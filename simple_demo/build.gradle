@@ -4,12 +4,12 @@ def appVersionCode = getVersionCode();
 def APP_VERSION = "1.0.0"
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "pingidsdk.pingidentity.com.simpledemo"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode appVersionCode
         versionName APP_VERSION
         multiDexEnabled true
@@ -61,7 +61,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.2.1'
     compile 'io.jsonwebtoken:jjwt:0.7.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:design:26.1.0'
 
 }
 
