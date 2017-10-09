@@ -1,0 +1,4 @@
+include ':simple_demo'
+gradle.ext.git_folder = git_folder
+
+

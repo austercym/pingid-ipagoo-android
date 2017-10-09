@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+
+def appVersionCode = getVersionCode();
+def APP_VERSION = "1.0.0"
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25"
+    defaultConfig {
+        applicationId "pingidsdk.pingidentity.com.simpledemo"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode appVersionCode
+        versionName APP_VERSION
+        multiDexEnabled true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTI CE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/*'
+        exclude 'META-INF/maven'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    signingConfigs {
+        release {
+        }
+        debug{
+        }
+    }
+}
+
+dependencies {
+    //PingID SDK library dependency
+    compile(name:'PingID_SDK', ext:'aar')
+
+
+    //new logging system deps
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile 'com.github.tony19:logback-android-core:1.1.1-6'
+    compile('com.github.tony19:logback-android-classic:1.1.1-6') {
+        // workaround issue #73
+        exclude group: 'com.google.android', module: 'android'
+    }
+
+    //Dependencies required by the PingID SDK lib
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'commons-codec:commons-codec:1.5'
+    compile 'com.madgag:sc-light-jdk15on:1.47.0.3'
+    compile 'com.madgag:scprov-jdk15on:1.47.0.3'
+    compile 'com.google.android.gms:play-services-base:10.2.1'
+    compile 'com.google.firebase:firebase-messaging:10.2.1'
+    compile 'io.jsonwebtoken:jjwt:0.7.0'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.android.support:design:25.2.0'
+
+}
+
+//this task increments the version number
+task('incrementVersionCode') << {
+    def Properties versionProps = new Properties()
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        versionProps.load(new FileInputStream(versionPropsFile))
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+    def code = (versionProps['VERSION_CODE'] ?: "0").toInteger() + 1
+    versionProps['VERSION_CODE'] = code.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
+    return code
+}
+
+
+//this function retrieves the current version code
+def getVersionCode()  {
+    def Properties versionProps = new Properties()
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        versionProps.load(new FileInputStream(versionPropsFile))
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+    def code = (versionProps['VERSION_CODE'] ?: "0").toInteger()
+    return code
+}
