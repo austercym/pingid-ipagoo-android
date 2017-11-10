@@ -34,15 +34,20 @@ android {
     signingConfigs {
         release {
         }
-        debug{
+        debug {
+        }
+    }
+
+    android {
+        lintOptions {
+            abortOnError false
         }
     }
 }
 
 dependencies {
     //PingID SDK library dependency
-    compile(name:'PingID_SDK', ext:'aar')
-
+    compile(name: 'PingID_SDK', ext: 'aar')
 
     //new logging system deps
     compile 'org.slf4j:slf4j-api:1.7.7'
@@ -80,9 +85,8 @@ task('incrementVersionCode') << {
     return code
 }
 
-
 //this function retrieves the current version code
-def getVersionCode()  {
+def getVersionCode() {
     def Properties versionProps = new Properties()
     def versionPropsFile = file('version.properties')
     if (versionPropsFile.exists() && versionPropsFile.canRead()) {
